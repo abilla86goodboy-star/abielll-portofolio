@@ -11,6 +11,19 @@
   font-family: "Poppins", sans-serif;
   scroll-behavior: smooth;
   color-scheme: dark;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Optimasi performa scroll & render di perangkat mobile */
+@media (max-width: 640px) {
+  html, body {
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  canvas {
+    touch-action: pan-y;
+  }
 }
 
 .hash-span {
