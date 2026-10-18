@@ -20,8 +20,11 @@ const AnimatedBg = () => {
 
     window.addEventListener("resize", handleResize);
 
-    // Inisialisasi partikel tech / constellation
-    const particleCount = Math.min(Math.floor((width * height) / 14000), 75);
+    // Inisialisasi partikel tech / constellation (sangat ringan di mobile)
+    const isMobileDevice = width < 640;
+    const particleCount = isMobileDevice 
+      ? Math.min(Math.floor((width * height) / 25000), 22)
+      : Math.min(Math.floor((width * height) / 14000), 75);
     const particles = [];
 
     for (let i = 0; i < particleCount; i++) {

@@ -5,7 +5,7 @@ import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
 import CanvasLoader from "../Loader";
 
 const Computers = ({ isMobile }) => {
-  const computer = useGLTF("./desktop_pc/scene.gltf");
+  const computer = useGLTF("/desktop_pc/scene.gltf");
 
   return (
     <mesh>
@@ -15,14 +15,14 @@ const Computers = ({ isMobile }) => {
         angle={0.12}
         penumbra={1}
         intensity={1}
-        castShadow
-        shadow-mapSize={1024}
+        castShadow={!isMobile}
+        shadow-mapSize={isMobile ? 512 : 1024}
       />
       <pointLight intensity={1} />
       <primitive
         object={computer.scene}
-        scale={isMobile ? 0.7 : 0.75}
-        position={isMobile ? [0, -3, -2.2] : [0, -3.25, -1.5]}
+        scale={isMobile ? 0.65 : 0.75}
+        position={isMobile ? [0, -3, -1.8] : [0, -3.25, -1.5]}
         rotation={[-0.01, -0.2, -0.1]}
       />
     </mesh>
@@ -34,7 +34,7 @@ const ComputersCanvas = () => {
 
   useEffect(() => {
     // Add a listener for changes to the screen size
-    const mediaQuery = window.matchMedia("(max-width: 500px)");
+    const mediaQuery = window.matchMedia("(max-width: 640px)");
 
     // Set the initial value of the `isMobile` state variable
     setIsMobile(mediaQuery.matches);
@@ -55,11 +55,11 @@ const ComputersCanvas = () => {
 
   return (
     <Canvas
-      frameloop='demand'
-      shadows
-      dpr={[1, 1.5]}
+      frameloop={isMobile ? "demand" : "always"}
+      shadows={!isMobile}
+      dpr={isMobile ? 1 : [1, 1.5]}
       camera={{ position: [20, 3, 5], fov: 25 }}
-      gl={{ preserveDrawingBuffer: true }}
+      gl={{ preserveDrawingBuffer: false, powerPreference: isMobile ? "low-power" : "high-performance" }}
     >
       <Suspense fallback={<CanvasLoader />}>
         <OrbitControls
